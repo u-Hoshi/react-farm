@@ -5,7 +5,7 @@ import { useMutation } from 'react-query'
 import { resetEditedTask, toggleCsrfState } from '../slices/appSlice'
 import { User } from '../types/types'
 
-type Error = {}
+// type Error = {}
 
 export const useMutateAuth = () => {
   const history = useHistory()
