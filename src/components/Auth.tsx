@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { VFC } from 'react'
 import { RefreshIcon } from '@heroicons/react/solid'
 import { BadgeCheckIcon } from '@heroicons/react/solid'
 import { useProcessAuth } from '../hooks/useProcessAuth'
 
-export const Auth = () => {
+export const Auth: VFC = () => {
   const {
     email,
     setEmail,
