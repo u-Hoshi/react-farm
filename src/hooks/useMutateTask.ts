@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom'
 
 export const useMutateTask = () => {
   const history = useHistory()
-  const QueryClient = useQueryClient()
+  const queryClient = useQueryClient()
   const dispatch = useDispatch()
 
   const createTaskMutation = useMutation(
@@ -17,10 +17,11 @@ export const useMutateTask = () => {
       }),
     {
       onSuccess: (res) => {
-        const previousTodos = QueryClient.getQueryData<Task[]>('task')
-        if (previousTodos) {
-          QueryClient.setQueriesData('task', [...previousTodos, res.data])
+        const previousTodos = queryClient.getQueryData<Task[]>('tasks')
+        if (previousTodos) {  
+          queryClient.setQueryData('tasks', [...previousTodos, res.data])
         }
+        dispatch(resetEditedTask())
       },
       onError: (err: any) => {
         alert(`${err.response.data.detail}\n${err.message}`)
@@ -48,10 +49,10 @@ export const useMutateTask = () => {
     {
       onSuccess: (res, variables) => {
         // 第一引数にはuseMutationの第一引数で渡した関数の結果、第二引数にはuseMutationで渡したデータ(今回だとtask)を取得する
-        const previousTodos = QueryClient.getQueryData<Task[]>('task')
+        const previousTodos = queryClient.getQueryData<Task[]>('tasks')
         if (previousTodos) {
-          QueryClient.setQueryData<Task[]>(
-            'task',
+          queryClient.setQueryData<Task[]>(
+            'tasks',
             previousTodos.map((task) =>
               task.id === variables.id ? res.data : task
             )
@@ -79,9 +80,9 @@ export const useMutateTask = () => {
       }),
     {
       onSuccess: (res, variables) => {
-        const previousTodos = QueryClient.getQueryData<Task[]>('task')
+        const previousTodos = queryClient.getQueryData<Task[]>('tasks')
         if (previousTodos) {
-          QueryClient.setQueryData<Task[]>(
+          queryClient.setQueryData<Task[]>(
             'tasks',
             previousTodos.filter((task) => task.id !== variables)
           )
